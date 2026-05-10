@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Noble Messenger • Setup</title>
+  <link rel="stylesheet" href="setup.css">
+</head>
+<body>
+
+<div class="background"></div>
+
+<div class="setup-container">
+
+  <div class="title">
+    <div class="logo-dot"></div>
+    <h1>Noble Messenger</h1>
+  </div>
+
+  <p class="subtitle">Создай свой профиль</p>
+
+  <div class="card">
+
+    <div class="avatar-block">
+      <img id="avatarPreview" src="https://via.placeholder.com/120" />
+      <label class="upload-btn">
+        Выбрать иконку
+        <input type="file" id="avatarInput" accept="image/*">
+      </label>
+    </div>
+
+    <div class="inputs">
+
+      <input type="text" id="name" placeholder="Имя">
+
+      <div class="username">
+        <span>@</span>
+        <input type="text" id="username" placeholder="username">
+      </div>
+
+    </div>
+
+    <button onclick="saveProfile()">Продолжить</button>
+
+  </div>
+
+</div>
+
+<script src="setup.js"></script>
+</body>
+</html>

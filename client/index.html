@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Noble Messenger</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>Noble</h2>
+        <div class="chat-item active">Общий чат</div>
+        <div class="chat-item">Друг 1</div>
+    </div>
+
+    <!-- Chat -->
+    <div class="chat">
+
+        <div class="header">Общий чат</div>
+
+        <div id="messages" class="messages"></div>
+
+        <div class="input-area">
+            <input id="msg" placeholder="Написать сообщение...">
+            <button onclick="sendMessage()">➤</button>
+        </div>
+
+    </div>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

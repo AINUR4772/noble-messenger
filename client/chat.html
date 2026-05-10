@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Noble Messenger</title>
+  <link rel="stylesheet" href="chat.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    .msg.file img { max-width: 250px; max-height: 250px; border-radius: 12px; margin-top: 5px; cursor: pointer; }
+    .msg.file .file-info { display: flex; align-items: center; gap: 10px; background: #1e2a3a; padding: 8px 12px; border-radius: 10px; }
+    .msg.file .file-info i { font-size: 24px; color: var(--accent-red); }
+    .msg.file .file-info span { font-size: 13px; word-break: break-all; }
+  </style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+
+    <div class="profile" id="profileToggle">
+      <img id="myAvatar" src="https://via.placeholder.com/50" alt="Avatar">
+      <div class="profile-info">
+        <div id="myName">User</div>
+        <div id="myUsername">@user</div>
+      </div>
+    </div>
+
+    <div class="search">
+      <i class="fas fa-search"></i>
+      <input type="text" id="searchInput" placeholder="Поиск...">
+      <div class="search-mode">
+        <span class="mode-btn active" data-mode="chats">Чаты</span>
+        <span class="mode-btn" data-mode="users">Люди</span>
+      </div>
+    </div>
+
+    <div class="chats-header">
+      <span>Чаты</span>
+      <button id="addChatBtn" class="icon-btn" title="Новый чат"><i class="fas fa-plus"></i></button>
+    </div>
+
+    <div class="chats" id="chatsList"></div>
+
+  </div>
+
+  <!-- MAIN CHAT -->
+  <div class="main">
+
+    <div class="topbar">
+      <div class="room-info">
+        <span class="room-name" id="currentChatName"># Noble</span>
+        <span class="room-status" id="chatStatus"></span>
+      </div>
+      <div>
+        <label for="fileUpload" class="icon-btn" title="Прикрепить файл"><i class="fas fa-paperclip"></i></label>
+        <input type="file" id="fileUpload" accept="*" style="display:none;">
+      </div>
+    </div>
+
+    <div class="messages" id="messagesContainer"></div>
+
+    <div class="input-area">
+      <input id="messageInput" type="text" placeholder="Написать сообщение..." autocomplete="off">
+      <button id="sendBtn"><i class="fas fa-paper-plane"></i></button>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ПАНЕЛЬ ПРОФИЛЯ (своя) -->
+<div class="profile-panel" id="profilePanel">
+  <div class="panel-header">
+    <h3>Профиль</h3>
+    <button class="icon-btn close-panel" id="closePanelBtn"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="panel-content">
+    <div class="avatar-section">
+      <img id="panelAvatar" src="https://via.placeholder.com/80" alt="Avatar">
+      <button class="btn-secondary" id="changeAvatarBtn"><i class="fas fa-camera"></i> Изменить фото</button>
+      <input type="file" id="avatarUpload" accept="image/*" style="display:none;">
+    </div>
+    <div class="input-group">
+      <label>Имя</label>
+      <input type="text" id="panelName" placeholder="Ваше имя">
+    </div>
+    <div class="input-group">
+      <label>Имя пользователя</label>
+      <div class="username-input">
+        <span>@</span>
+        <input type="text" id="panelUsername" placeholder="username">
+      </div>
+    </div>
+    <div class="input-group">
+      <label>О себе</label>
+      <textarea id="panelBio" placeholder="Расскажите о себе..." rows="3"></textarea>
+    </div>
+    <button class="btn-primary" id="saveProfileBtn">Сохранить изменения</button>
+    <div class="divider"></div>
+    <button class="btn-secondary" id="notificationSettingsBtn">
+      <i class="fas fa-bell"></i> Настройки уведомлений
+    </button>
+    <div class="panel-footer">Noble V 1.0.5 (стабильная)</div>
+  </div>
+</div>
+
+<!-- МОДАЛКА УВЕДОМЛЕНИЙ -->
+<div class="modal-overlay" id="notificationsModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>Уведомления и звуки</h3>
+      <button class="icon-btn close-modal"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="setting-row">
+        <label>Звук уведомлений</label>
+        <div class="setting-control">
+          <label class="toggle">
+            <input type="checkbox" id="soundEnabledCheck">
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+      <div class="setting-row">
+        <label>Предпросмотр сообщений</label>
+        <div class="setting-control">
+          <label class="toggle">
+            <input type="checkbox" id="previewEnabledCheck">
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-primary" id="saveNotificationsBtn">Сохранить</button>
+    </div>
+  </div>
+</div>
+
+<!-- МОДАЛКА ПРОФИЛЯ СОБЕСЕДНИКА -->
+<div class="modal-overlay" id="userProfileModal">
+  <div class="modal user-profile-modal">
+    <div class="modal-header">
+      <h3>Профиль</h3>
+      <button class="icon-btn close-modal"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body user-profile-body">
+      <div class="user-profile-avatar">
+        <img id="userProfileAvatar" src="https://via.placeholder.com/100">
+      </div>
+      <h2 id="userProfileName">Имя</h2>
+      <p id="userProfileUsername">@username</p>
+      <p id="userProfileBio" class="user-bio"></p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-primary" id="sendMessageFromProfileBtn">Написать сообщение</button>
+    </div>
+  </div>
+</div>
+
+<!-- КОНТЕКСТНОЕ МЕНЮ СООБЩЕНИЯ -->
+<div class="context-menu" id="messageContextMenu">
+  <div class="context-menu-item" data-action="copy"><i class="fas fa-copy"></i> Копировать</div>
+  <div class="context-menu-item" data-action="edit"><i class="fas fa-edit"></i> Редактировать</div>
+  <div class="context-menu-item" data-action="delete"><i class="fas fa-trash"></i> Удалить</div>
+  <div class="context-menu-divider"></div>
+  <div class="context-menu-item" data-action="reactions"><i class="far fa-smile"></i> Реакции</div>
+</div>
+
+<!-- МЕНЮ РЕАКЦИЙ -->
+<div class="reaction-menu" id="reactionMenu">
+  <div class="reaction-menu-item" data-emoji="👍">👍</div>
+  <div class="reaction-menu-item" data-emoji="❤️">❤️</div>
+  <div class="reaction-menu-item" data-emoji="😢">😢</div>
+  <div class="reaction-menu-item" data-emoji="😡">😡</div>
+  <div class="reaction-menu-item" data-emoji="🎉">🎉</div>
+</div>
+
+<script src="chat.js"></script>
+</body>
+</html>

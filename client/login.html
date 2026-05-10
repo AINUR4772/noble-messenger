@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Noble Messenger • Login</title>
+  <link rel="stylesheet" href="login.css">
+</head>
+<body>
+
+<div class="bg"></div>
+
+<div class="login-container">
+
+  <div class="brand">
+    <div class="dot"></div>
+    <h1>Noble Messenger</h1>
+  </div>
+
+  <p class="subtitle">Вход в систему</p>
+
+  <!-- STEP 1 -->
+  <div class="card" id="step1">
+    <input type="email" id="email" placeholder="Email">
+    <button onclick="sendCode()">Отправить код</button>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="card hidden" id="step2">
+    <input type="text" id="code" placeholder="Введите код">
+    <button onclick="verifyCode()">Подтвердить</button>
+  </div>
+
+</div>
+
+<script src="login.js"></script>
+</body>
+</html>
